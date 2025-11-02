@@ -56,10 +56,11 @@ export function usePracticeSentences(verb) {
       const session = await LanguageModel.create()
 
       // Generate sentence for Simple Past (O.V.T.)
-      const pastSimplePrompt = `Write a simple, natural Dutch sentence using "${targetVerb.pastSimple}" (past tense of "${targetVerb.infinitive}"). Return ONLY the Dutch sentence. No explanations, no quotes, no additional text.`
+      const pluralForm = targetVerb.pastSimplePlural || targetVerb.pastSimple + 'en'
+      const pastSimplePrompt = `Write a simple, natural Dutch sentence using "${targetVerb.pastSimple}" (singular) or "${pluralForm}" (plural) - past tense of "${targetVerb.infinitive}". Use whichever form fits naturally in the sentence. Return ONLY the Dutch sentence. No explanations, no quotes, no additional text.`
       
       // Generate sentence for Past Participle (V.D.)
-      const pastParticiplePrompt = `Write a simple, natural Dutch sentence using "${targetVerb.pastParticiple}" (past participle of "${targetVerb.infinitive}") with "hebben" or "zijn". Return ONLY the Dutch sentence. No explanations, no quotes, no additional text.`
+      const pastParticiplePrompt = `Write a simple, natural Dutch sentence using the EXACT form "${targetVerb.pastParticiple}" (past participle of "${targetVerb.infinitive}") with "hebben" or "zijn". You must use "${targetVerb.pastParticiple}" exactly as written. Return ONLY the Dutch sentence. No explanations, no quotes, no additional text.`
 
       const [pastSimpleResult, pastParticipleResult] = await Promise.all([
         session.prompt(pastSimplePrompt).catch(() => null),
@@ -79,26 +80,33 @@ export function usePracticeSentences(verb) {
       const pastParticipleSentence = cleanSentence(pastParticipleResult)
 
       // Create sentences with blanks (replace the verb form with blank)
-      const createBlank = (sentence, verbForm) => {
+      const createBlank = (sentence, verbForm, pluralForm = null) => {
         if (!sentence || !verbForm) return null
         
-        // Try to find and replace the verb form in the sentence
-        // Use word boundaries to avoid partial matches, case insensitive
+        // Try singular form first
         const escapedForm = verbForm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        // First try with word boundaries
         let regex = new RegExp(`\\b${escapedForm}\\b`, 'gi')
-        let blanked = sentence.replace(regex, '______')
-        
-        // If no replacement happened (maybe punctuation), try without word boundaries
-        if (blanked === sentence) {
-          regex = new RegExp(escapedForm, 'gi')
-          blanked = sentence.replace(regex, '______')
+        if (regex.test(sentence)) {
+          regex.lastIndex = 0
+          return sentence.replace(regex, '...')
         }
         
-        return blanked
+        // Try plural form if provided
+        if (pluralForm) {
+          const escapedPlural = pluralForm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+          regex = new RegExp(`\\b${escapedPlural}\\b`, 'gi')
+          if (regex.test(sentence)) {
+            regex.lastIndex = 0
+            return sentence.replace(regex, '...')
+          }
+        }
+        
+        // If still not found, return the original sentence
+        return sentence
       }
 
-      const pastSimpleBlank = createBlank(pastSimpleSentence, targetVerb.pastSimple)
+      const pastSimplePlural = targetVerb.pastSimplePlural || null
+      const pastSimpleBlank = createBlank(pastSimpleSentence, targetVerb.pastSimple, pastSimplePlural)
       const pastParticipleBlank = createBlank(pastParticipleSentence, targetVerb.pastParticiple)
 
       // Only update if we're still on the same verb

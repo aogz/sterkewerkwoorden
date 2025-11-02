@@ -72,12 +72,6 @@ function PracticeCard({ verb, onCorrect, onIncorrect, currentIndex, totalVerbs, 
         <div className="h-px bg-gray-200 my-5" />
         
         {/* Practice Sentences with Blanks */}
-        {loading && (
-          <div className="mb-5 text-center">
-            <p className="text-sm text-gray-400 italic">Generating practice sentences...</p>
-          </div>
-        )}
-        
         {!loading && apiError && apiAvailable === false && (
           <div className="mb-5 text-center">
             <div className="group relative inline-block">
@@ -99,160 +93,110 @@ function PracticeCard({ verb, onCorrect, onIncorrect, currentIndex, totalVerbs, 
           {/* Simple Past Sentence */}
           <div className="group">
             <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-2">Simple Past (O.V.T.)</p>
-            {sentences.pastSimpleBlank ? (
-              <div className="space-y-3">
-                <div className="bg-gray-50 p-4 rounded-lg border-2 border-gray-200">
-                  <p className="text-base text-gray-800 mb-3">
-                    {sentences.pastSimpleBlank.split('______').map((part, i, arr) => (
-                      <span key={i}>
-                        {part}
-                        {i < arr.length - 1 && (
-                          <input
-                            type="text"
-                            value={pastSimpleAnswer}
-                            onChange={(e) => setPastSimpleAnswer(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            disabled={showResult || revealPastSimple}
-                            className={`inline-block min-w-[80px] px-2 py-1 text-base font-semibold text-center rounded border-2 transition-all ${
-                              showResult
-                                ? pastSimpleAnswer.toLowerCase().trim() === verb.pastSimple.toLowerCase()
-                                  ? 'bg-green-100 border-green-400 text-green-800'
-                                  : 'bg-red-100 border-red-400 text-red-800'
-                                : revealPastSimple
-                                ? 'bg-blue-100 border-blue-400 text-blue-800'
-                                : 'bg-white border-gray-400 text-gray-800 focus:border-gray-600 focus:outline-none'
-                            }`}
-                            placeholder="..."
-                            autoFocus={i === 0 && pastSimpleAnswer === ''}
-                          />
-                        )}
-                      </span>
-                    ))}
-                  </p>
+            <div className="space-y-3">
+              {/* Input field - always displayed */}
+              <input
+                type="text"
+                value={pastSimpleAnswer}
+                onChange={(e) => setPastSimpleAnswer(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={showResult || revealPastSimple}
+                className={`w-full px-4 py-3 text-xl font-bold text-center rounded-lg border-2 transition-all ${
+                  showResult
+                    ? pastSimpleAnswer.toLowerCase().trim() === verb.pastSimple.toLowerCase()
+                      ? 'bg-green-100 border-green-400 text-green-800'
+                      : 'bg-red-100 border-red-400 text-red-800'
+                    : revealPastSimple
+                    ? 'bg-blue-100 border-blue-400 text-blue-800'
+                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
+                }`}
+                placeholder="Type here..."
+                autoFocus={pastSimpleAnswer === '' && pastParticipleAnswer === ''}
+              />
+              
+              {/* Sentence and reveal button row */}
+              <div className="flex items-start gap-3">
+                {/* Sentence display - fixed height to prevent jumping */}
+                <div className="flex-1 min-h-[40px]">
+                  {loading ? (
+                    <p className="text-sm text-gray-400 italic">Generating sentence...</p>
+                  ) : sentences.pastSimpleBlank ? (
+                    <p className="text-base text-gray-700">{sentences.pastSimpleBlank}</p>
+                  ) : (
+                    <p className="text-sm text-gray-400 italic">Fill in the past simple form</p>
+                  )}
                 </div>
+                
+                {/* Reveal answer button */}
                 {!showResult && !revealPastSimple && (
                   <button
                     onClick={handleRevealPastSimple}
-                    className="text-xs text-gray-500 hover:text-gray-700 underline"
+                    className="text-xs text-gray-500 hover:text-gray-700 underline whitespace-nowrap"
                   >
                     Reveal answer
                   </button>
                 )}
-                {showResult && pastSimpleAnswer.toLowerCase().trim() !== verb.pastSimple.toLowerCase() && (
-                  <p className="text-sm text-green-600">Correct: {verb.pastSimple}</p>
-                )}
               </div>
-            ) : (
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={pastSimpleAnswer}
-                  onChange={(e) => setPastSimpleAnswer(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  disabled={showResult || revealPastSimple}
-                  className={`w-full px-4 py-3 text-xl font-bold text-center rounded-lg border-2 transition-all ${
-                    showResult
-                      ? pastSimpleAnswer.toLowerCase().trim() === verb.pastSimple.toLowerCase()
-                        ? 'bg-green-100 border-green-400 text-green-800'
-                        : 'bg-red-100 border-red-400 text-red-800'
-                      : revealPastSimple
-                      ? 'bg-blue-100 border-blue-400 text-blue-800'
-                      : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
-                  }`}
-                  placeholder="Type here..."
-                />
-                {!showResult && !revealPastSimple && (
-                  <button
-                    onClick={handleRevealPastSimple}
-                    className="text-xs text-gray-500 hover:text-gray-700 underline"
-                  >
-                    Reveal answer
-                  </button>
-                )}
-                {showResult && pastSimpleAnswer.toLowerCase().trim() !== verb.pastSimple.toLowerCase() && (
-                  <p className="text-sm text-green-600">Correct: {verb.pastSimple}</p>
-                )}
-              </div>
-            )}
+              
+              {/* Correct answer display */}
+              {showResult && pastSimpleAnswer.toLowerCase().trim() !== verb.pastSimple.toLowerCase() && (
+                <p className="text-sm text-green-600">Correct: {verb.pastSimple}</p>
+              )}
+            </div>
           </div>
 
           {/* Past Participle Sentence */}
           <div className="group">
             <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-2">Past Participle (V.D.)</p>
-            {sentences.pastParticipleBlank ? (
-              <div className="space-y-3">
-                <div className="bg-gray-50 p-4 rounded-lg border-2 border-gray-200">
-                  <p className="text-base text-gray-800 mb-3">
-                    {sentences.pastParticipleBlank.split('______').map((part, i, arr) => (
-                      <span key={i}>
-                        {part}
-                        {i < arr.length - 1 && (
-                          <input
-                            type="text"
-                            value={pastParticipleAnswer}
-                            onChange={(e) => setPastParticipleAnswer(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            disabled={showResult || revealPastParticiple}
-                            className={`inline-block min-w-[80px] px-2 py-1 text-base font-semibold text-center rounded border-2 transition-all ${
-                              showResult
-                                ? pastParticipleAnswer.toLowerCase().trim() === verb.pastParticiple.toLowerCase()
-                                  ? 'bg-green-100 border-green-400 text-green-800'
-                                  : 'bg-red-100 border-red-400 text-red-800'
-                                : revealPastParticiple
-                                ? 'bg-blue-100 border-blue-400 text-blue-800'
-                                : 'bg-white border-gray-400 text-gray-800 focus:border-gray-600 focus:outline-none'
-                            }`}
-                            placeholder="..."
-                          />
-                        )}
-                      </span>
-                    ))}
-                  </p>
+            <div className="space-y-3">
+              {/* Input field - always displayed */}
+              <input
+                type="text"
+                value={pastParticipleAnswer}
+                onChange={(e) => setPastParticipleAnswer(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={showResult || revealPastParticiple}
+                className={`w-full px-4 py-3 text-xl font-bold text-center rounded-lg border-2 transition-all ${
+                  showResult
+                    ? pastParticipleAnswer.toLowerCase().trim() === verb.pastParticiple.toLowerCase()
+                      ? 'bg-green-100 border-green-400 text-green-800'
+                      : 'bg-red-100 border-red-400 text-red-800'
+                    : revealPastParticiple
+                    ? 'bg-blue-100 border-blue-400 text-blue-800'
+                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
+                }`}
+                placeholder="Type here..."
+              />
+              
+              {/* Sentence and reveal button row */}
+              <div className="flex items-start gap-3">
+                {/* Sentence display - fixed height to prevent jumping */}
+                <div className="flex-1 min-h-[40px]">
+                  {loading ? (
+                    <p className="text-sm text-gray-400 italic">Generating sentence...</p>
+                  ) : sentences.pastParticipleBlank ? (
+                    <p className="text-base text-gray-700">{sentences.pastParticipleBlank}</p>
+                  ) : (
+                    <p className="text-sm text-gray-400 italic">Fill in the past participle form</p>
+                  )}
                 </div>
+                
+                {/* Reveal answer button */}
                 {!showResult && !revealPastParticiple && (
                   <button
                     onClick={handleRevealPastParticiple}
-                    className="text-xs text-gray-500 hover:text-gray-700 underline"
+                    className="text-xs text-gray-500 hover:text-gray-700 underline whitespace-nowrap"
                   >
                     Reveal answer
                   </button>
                 )}
-                {showResult && pastParticipleAnswer.toLowerCase().trim() !== verb.pastParticiple.toLowerCase() && (
-                  <p className="text-sm text-green-600">Correct: {verb.pastParticiple}</p>
-                )}
               </div>
-            ) : (
-              <div className="space-y-3">
-                <input
-                  type="text"
-                  value={pastParticipleAnswer}
-                  onChange={(e) => setPastParticipleAnswer(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  disabled={showResult || revealPastParticiple}
-                  className={`w-full px-4 py-3 text-xl font-bold text-center rounded-lg border-2 transition-all ${
-                    showResult
-                      ? pastParticipleAnswer.toLowerCase().trim() === verb.pastParticiple.toLowerCase()
-                        ? 'bg-green-100 border-green-400 text-green-800'
-                        : 'bg-red-100 border-red-400 text-red-800'
-                      : revealPastParticiple
-                      ? 'bg-blue-100 border-blue-400 text-blue-800'
-                      : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
-                  }`}
-                  placeholder="Type here..."
-                />
-                {!showResult && !revealPastParticiple && (
-                  <button
-                    onClick={handleRevealPastParticiple}
-                    className="text-xs text-gray-500 hover:text-gray-700 underline"
-                  >
-                    Reveal answer
-                  </button>
-                )}
-                {showResult && pastParticipleAnswer.toLowerCase().trim() !== verb.pastParticiple.toLowerCase() && (
-                  <p className="text-sm text-green-600">Correct: {verb.pastParticiple}</p>
-                )}
-              </div>
-            )}
+              
+              {/* Correct answer display */}
+              {showResult && pastParticipleAnswer.toLowerCase().trim() !== verb.pastParticiple.toLowerCase() && (
+                <p className="text-sm text-green-600">Correct: {verb.pastParticiple}</p>
+              )}
+            </div>
           </div>
         </div>
 
