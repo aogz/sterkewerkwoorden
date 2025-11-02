@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import FlashCard from './components/FlashCard'
 import PracticeCard from './components/PracticeCard'
 import VerbList from './components/VerbList'
+import { PWAUpdatePrompt } from './components/PWAUpdatePrompt'
 import { verbs } from './data/verbs'
 import { useLearningProgress } from './hooks/useLearningProgress'
 import { useStreakTracker } from './hooks/useStreakTracker'
@@ -19,6 +20,7 @@ function shuffleArray(array) {
 function App() {
   const [mode, setMode] = useState('learn') // 'learn' or 'practice'
   const [currentVerbIndex, setCurrentVerbIndex] = useState(0)
+  const [sidebarOpen, setSidebarOpen] = useState(false) // Mobile sidebar state
   const { markAsLearned, recordPractice, getVerbStatus, getStatistics } = useLearningProgress(verbs.length)
   const { currentStreak, recordVerbPractice } = useStreakTracker()
 
@@ -106,25 +108,79 @@ function App() {
   }, [mode, currentVerbIndex, nextVerb, prevVerb])
 
   return (
-    <div className="h-full w-full flex overflow-hidden">
-      <VerbList 
-        verbs={verbs}
-        currentIndex={actualVerbIndex}
-        onVerbClick={goToVerb}
-        getVerbStatus={getVerbStatus}
-      />
+    <div className="h-full w-full flex overflow-hidden relative">
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <>
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="fixed inset-y-0 left-0 z-50 md:hidden w-80 transform transition-transform duration-300 ease-in-out">
+            <VerbList 
+              verbs={verbs}
+              currentIndex={actualVerbIndex}
+              onVerbClick={(index) => {
+                goToVerb(index)
+                setSidebarOpen(false) // Close sidebar when verb is clicked on mobile
+              }}
+              getVerbStatus={getVerbStatus}
+            />
+          </div>
+        </>
+      )}
+
+      {/* Desktop Sidebar - always visible */}
+      <div className="hidden md:block">
+        <VerbList 
+          verbs={verbs}
+          currentIndex={actualVerbIndex}
+          onVerbClick={goToVerb}
+          getVerbStatus={getVerbStatus}
+        />
+      </div>
       
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        <header className="text-center py-4 px-8 bg-white border-b border-gray-200">
-          <h1 className="text-3xl font-extrabold text-gray-800 mb-2">
+        <header className="text-center py-2 md:py-4 px-3 md:px-8 bg-white border-b border-gray-200 relative">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 md:hidden p-1.5 rounded-lg hover:bg-gray-100 transition-colors z-10"
+            aria-label="Toggle sidebar"
+          >
+            <svg
+              className="w-5 h-5 text-gray-700"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {sidebarOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
+
+          <h1 className="text-lg md:text-3xl font-extrabold text-gray-800 mb-1 md:mb-2 px-7 md:px-0">
             🇳🇱 Dutch Verb Drill
           </h1>
           
           {/* Mode Toggle */}
-          <div className="flex items-center justify-center gap-4 mb-3">
+          <div className="flex items-center justify-center gap-2 md:gap-4 mb-1.5 md:mb-3">
             <button
               onClick={() => setMode('learn')}
-              className={`px-6 py-2 rounded-lg font-semibold transition-all ${
+              className={`px-3 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-base font-semibold transition-all ${
                 mode === 'learn'
                   ? 'bg-gray-800 text-white shadow-lg'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -134,7 +190,7 @@ function App() {
             </button>
             <button
               onClick={() => setMode('practice')}
-              className={`px-6 py-2 rounded-lg font-semibold transition-all ${
+              className={`px-3 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-base font-semibold transition-all ${
                 mode === 'practice'
                   ? 'bg-gray-800 text-white shadow-lg'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -145,7 +201,7 @@ function App() {
           </div>
 
           {/* Statistics */}
-          <div className="flex items-center justify-center gap-6 text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-6 text-xs md:text-sm">
             <span className="text-gray-600">
               Learned: <strong className="text-gray-800">{stats.learned}/{stats.totalVerbs}</strong>
             </span>
@@ -161,7 +217,7 @@ function App() {
               <span className="text-gray-600 cursor-help">
                 {currentStreak > 0 ? '🔥' : '📅'} Streak: <strong className="text-gray-800">{currentStreak}</strong>
               </span>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 hidden md:block">
                 <p className="mb-2 font-semibold text-sm">Practice Streak</p>
                 <p className="mb-2">Practice at least 5 different verbs each day to maintain your streak. Keep going!</p>
                 {/* Arrow */}
@@ -173,7 +229,7 @@ function App() {
           </div>
         </header>
 
-        <div className="flex-1 flex items-center justify-center p-6 overflow-hidden">
+        <div className="flex-1 flex items-center justify-center p-3 md:p-6 overflow-hidden">
           <div className="w-full max-w-5xl">
             {mode === 'learn' ? (
               <FlashCard
@@ -195,6 +251,9 @@ function App() {
             )}
           </div>
         </div>
+        
+        {/* PWA Update and Install Prompts */}
+        <PWAUpdatePrompt />
       </div>
     </div>
   )

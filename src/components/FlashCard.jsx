@@ -5,38 +5,38 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
 
   return (
     <div className="fade-in">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200 transition-all duration-300">
+      <div className="bg-white p-4 md:p-8 rounded-xl md:rounded-2xl shadow-lg border border-gray-200 transition-all duration-300">
 
         {/* Infinitive (Always Visible) */}
-        <div className="mb-6 text-center">
-          <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-2">Infinitive (Hele Werkwoord)</p>
-          <h2 className="text-5xl md:text-6xl font-black text-gray-900 transition-all duration-500">
+        <div className="mb-4 md:mb-6 text-center">
+          <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-1 md:mb-2">Infinitive (Hele Werkwoord)</p>
+          <h2 className="text-3xl md:text-6xl font-black text-gray-900 transition-all duration-500">
             {verb.infinitive}
           </h2>
-          <p className="text-base text-gray-600 mt-2 font-semibold">{verb.english}</p>
+          <p className="text-sm md:text-base text-gray-600 mt-1 md:mt-2 font-semibold">{verb.english}</p>
         </div>
 
-        <div className="h-px bg-gray-200 my-5" />
+        <div className="h-px bg-gray-200 my-3 md:my-5" />
         
         {/* Quiz Area (Simple Past & Past Participle) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-center mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-center mb-4 md:mb-5">
           {/* Simple Past */}
           <div className="group">
-            <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-2">Simple Past (O.V.T.)</p>
-            <div className="min-h-[70px] flex items-center justify-center rounded-lg p-4 bg-gray-100 border-2 border-gray-300">
-              <span className="text-2xl font-bold text-gray-800">{verb.pastSimple}</span>
+            <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-1.5 md:mb-2">Simple Past (O.V.T.)</p>
+            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border-2 border-gray-300">
+              <span className="text-xl md:text-2xl font-bold text-gray-800">{verb.pastSimple}</span>
             </div>
             
             {/* Example Sentence */}
-            <div className="mt-3 h-[80px] flex flex-col justify-start">
+            <div className="mt-2 md:mt-3 h-[50px] md:h-[80px] flex flex-col justify-start">
               {loading && (
                 <p className="text-xs text-gray-400 italic">Generating examples...</p>
               )}
               {!loading && examples.pastSimple && (
-                <div className="text-sm text-gray-700 italic">
+                <div className="text-xs md:text-sm text-gray-700 italic">
                   <p>{examples.pastSimple}</p>
                   {examples.pastSimpleTranslation && (
-                    <p className="text-xs text-gray-500 mt-1 not-italic">
+                    <p className="text-xs text-gray-500 mt-0.5 md:mt-1 not-italic">
                       {examples.pastSimpleTranslation}
                     </p>
                   )}
@@ -72,21 +72,21 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
 
           {/* Past Participle */}
           <div className="group">
-            <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-2">Past Participle (V.D.)</p>
-            <div className="min-h-[70px] flex items-center justify-center rounded-lg p-4 bg-gray-100 border-2 border-gray-300">
-              <span className="text-2xl font-bold text-gray-800">{verb.pastParticiple}</span>
+            <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-1.5 md:mb-2">Past Participle (V.D.)</p>
+            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border-2 border-gray-300">
+              <span className="text-xl md:text-2xl font-bold text-gray-800">{verb.pastParticiple}</span>
             </div>
             
             {/* Example Sentence */}
-            <div className="mt-3 h-[80px] flex flex-col justify-start">
+            <div className="mt-2 md:mt-3 h-[50px] md:h-[80px] flex flex-col justify-start">
               {loading && (
                 <p className="text-xs text-gray-400 italic">Generating examples...</p>
               )}
               {!loading && examples.pastParticiple && (
-                <div className="text-sm text-gray-700 italic">
+                <div className="text-xs md:text-sm text-gray-700 italic">
                   <p>{examples.pastParticiple}</p>
                   {examples.pastParticipleTranslation && (
-                    <p className="text-xs text-gray-500 mt-1 not-italic">
+                    <p className="text-xs text-gray-500 mt-0.5 md:mt-1 not-italic">
                       {examples.pastParticipleTranslation}
                     </p>
                   )}
@@ -123,18 +123,18 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
       </div>
       
       {/* Navigation Buttons */}
-      <div className="mt-5 flex gap-3">
+      <div className="mt-3 md:mt-5 flex gap-2 md:gap-3">
         <button
           onClick={onPrev}
           disabled={currentIndex === 0}
-          className="flex-1 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-gray-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex-1 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white text-sm md:text-base font-semibold rounded-lg shadow hover:bg-gray-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           ← Previous
         </button>
         <button
           onClick={onNext}
           disabled={currentIndex === totalVerbs - 1}
-          className="flex-1 px-6 py-3 bg-gray-800 text-white font-semibold rounded-lg shadow hover:bg-gray-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+          className="flex-1 px-4 md:px-6 py-2 md:py-3 bg-gray-800 text-white text-sm md:text-base font-semibold rounded-lg shadow hover:bg-gray-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         >
           Next →
         </button>

@@ -34,10 +34,10 @@ function VerbList({ verbs, currentIndex, onVerbClick, getVerbStatus }) {
   }, [currentIndex, filteredVerbs])
 
   return (
-    <div className="w-80 bg-white shadow-sm flex flex-col border-r border-gray-200">
-      <div className="p-6 bg-gray-50 border-b border-gray-200">
-        <h2 className="text-xl font-bold text-gray-800 mb-1">All Verbs</h2>
-        <p className="text-gray-600 text-sm mb-4">
+    <div className="w-80 h-full bg-white shadow-sm flex flex-col border-r border-gray-200">
+      <div className="p-4 md:p-6 bg-gray-50 border-b border-gray-200">
+        <h2 className="text-lg md:text-xl font-bold text-gray-800 mb-1">All Verbs</h2>
+        <p className="text-gray-600 text-xs md:text-sm mb-4">
           {filteredVerbs.length === verbs.length 
             ? `${verbs.length} verbs total`
             : `${filteredVerbs.length} of ${verbs.length} verbs`
@@ -88,7 +88,7 @@ function VerbList({ verbs, currentIndex, onVerbClick, getVerbStatus }) {
           )}
         </div>
       </div>
-      <div ref={listContainerRef} className="flex-1 overflow-y-auto verb-list-container p-4">
+      <div ref={listContainerRef} className="flex-1 overflow-y-auto verb-list-container p-3 md:p-4">
         {filteredVerbs.length === 0 ? (
           <div className="text-center text-gray-500 text-sm py-8">
             No verbs found matching "{searchQuery}"

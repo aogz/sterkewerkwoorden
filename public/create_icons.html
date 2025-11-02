@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+</head>
+<body>
+  <canvas id="canvas192" width="192" height="192"></canvas>
+  <canvas id="canvas512" width="512" height="512"></canvas>
+  <canvas id="canvas180" width="180" height="180"></canvas>
+  <script>
+    function createIcon(size, canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#1f2937';
+      ctx.beginPath();
+      ctx.roundRect(10, 10, size - 20, size - 20, 20);
+      ctx.fill();
+      
+      // Text
+      ctx.fillStyle = '#f9fafb';
+      ctx.font = `bold ${size / 3}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('NL', size / 2, size / 2);
+      
+      // Download
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+      }, 'image/png');
+    }
+    
+    createIcon(192, 'canvas192', 'pwa-192x192.png');
+    createIcon(512, 'canvas512', 'pwa-512x512.png');
+    createIcon(180, 'canvas180', 'apple-touch-icon.png');
+  </script>
+</body>
+</html>
