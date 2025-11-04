@@ -108,7 +108,7 @@ function PracticeCard({ verb, onCorrect, onIncorrect, currentIndex, totalVerbs, 
                       : 'bg-red-100 border-red-400 text-red-800'
                     : revealPastSimple
                     ? 'bg-blue-100 border-blue-400 text-blue-800'
-                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
+                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300'
                 }`}
                 placeholder="Type here..."
                 autoFocus={pastSimpleAnswer === '' && pastParticipleAnswer === ''}
@@ -163,7 +163,7 @@ function PracticeCard({ verb, onCorrect, onIncorrect, currentIndex, totalVerbs, 
                       : 'bg-red-100 border-red-400 text-red-800'
                     : revealPastParticiple
                     ? 'bg-blue-100 border-blue-400 text-blue-800'
-                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none'
+                    : 'bg-gray-50 border-gray-300 text-gray-800 focus:border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300'
                 }`}
                 placeholder="Type here..."
               />

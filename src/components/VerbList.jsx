@@ -99,8 +99,8 @@ function VerbList({ verbs, currentIndex, onVerbClick, getVerbStatus }) {
               const status = getVerbStatus ? getVerbStatus(originalIndex) : 'new'
               const statusColors = {
                 new: 'bg-gray-50',
-                learned: 'bg-blue-50 border-l-2 border-blue-400',
-                mastered: 'bg-green-50 border-l-2 border-green-400'
+                learned: 'bg-gray-50 border-l-2 border-gray-400',
+                mastered: 'bg-gray-50 border-l-2 border-gray-600'
               }
               const statusIcons = {
                 new: '',
@@ -117,7 +117,7 @@ function VerbList({ verbs, currentIndex, onVerbClick, getVerbStatus }) {
                   onClick={() => onVerbClick(originalIndex)}
                   className={`p-3 rounded-lg cursor-pointer transition-all duration-200 ${
                     isCurrent
-                      ? 'bg-gray-900 text-white font-semibold'
+                      ? 'bg-gray-800 text-white font-semibold'
                       : `${statusColors[status]} hover:bg-gray-100 text-gray-700`
                   }`}
                 >

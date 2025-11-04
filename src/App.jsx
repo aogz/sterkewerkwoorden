@@ -141,7 +141,7 @@ function App() {
       </div>
       
       <div className="flex-1 flex flex-col overflow-hidden bg-gray-50">
-        <header className="text-center py-2 md:py-4 px-3 md:px-8 bg-white border-b border-gray-200 relative">
+        <header className="text-center py-2 md:py-4 px-3 md:px-8 bg-white border-b border-gray-200 relative shadow-sm">
           {/* Mobile Menu Button */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -182,7 +182,7 @@ function App() {
               onClick={() => setMode('learn')}
               className={`px-3 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-base font-semibold transition-all ${
                 mode === 'learn'
-                  ? 'bg-gray-800 text-white shadow-lg'
+                  ? 'bg-gray-800 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
@@ -192,7 +192,7 @@ function App() {
               onClick={() => setMode('practice')}
               className={`px-3 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-base font-semibold transition-all ${
                 mode === 'practice'
-                  ? 'bg-gray-800 text-white shadow-lg'
+                  ? 'bg-gray-800 text-white'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
@@ -217,12 +217,12 @@ function App() {
               <span className="text-gray-600 cursor-help">
                 {currentStreak > 0 ? '🔥' : '📅'} Streak: <strong className="text-gray-800">{currentStreak}</strong>
               </span>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 hidden md:block">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-800 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 hidden md:block">
                 <p className="mb-2 font-semibold text-sm">Practice Streak</p>
                 <p className="mb-2">Practice at least 5 different verbs each day to maintain your streak. Keep going!</p>
                 {/* Arrow */}
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
-                  <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-900"></div>
+                  <div className="w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-800"></div>
                 </div>
               </div>
             </div>

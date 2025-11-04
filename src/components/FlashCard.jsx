@@ -23,7 +23,7 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
           {/* Simple Past */}
           <div className="group">
             <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-1.5 md:mb-2">Simple Past (O.V.T.)</p>
-            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border-2 border-gray-300">
+            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border border-gray-300">
               <span className="text-xl md:text-2xl font-bold text-gray-800">{verb.pastSimple}</span>
             </div>
             
@@ -73,7 +73,7 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
           {/* Past Participle */}
           <div className="group">
             <p className="text-xs uppercase text-gray-500 font-semibold tracking-wider mb-1.5 md:mb-2">Past Participle (V.D.)</p>
-            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border-2 border-gray-300">
+            <div className="min-h-[60px] md:min-h-[70px] flex items-center justify-center rounded-lg p-3 md:p-4 bg-gray-100 border border-gray-300">
               <span className="text-xl md:text-2xl font-bold text-gray-800">{verb.pastParticiple}</span>
             </div>
             
