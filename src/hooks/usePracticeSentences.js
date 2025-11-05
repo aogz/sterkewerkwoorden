@@ -24,7 +24,7 @@ export function usePracticeSentences(verb) {
         }
 
         const availability = await LanguageModel.availability()
-        setApiAvailable(availability !== 'unavailable')
+        setApiAvailable(availability === 'available')
       } catch (err) {
         setApiAvailable(false)
       }
@@ -48,6 +48,12 @@ export function usePracticeSentences(verb) {
       const availability = await LanguageModel.availability()
       if (availability === 'unavailable') {
         setError('Prompt API is not available. Please enable it in chrome://flags')
+        setApiAvailable(false)
+        setLoading(false)
+        return
+      }
+      if (availability === 'downloading' || availability === 'downloadable') {
+        setError('Prompt API model is being loaded, it\'s expected to be available soon, please try again later')
         setApiAvailable(false)
         setLoading(false)
         return

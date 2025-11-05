@@ -78,7 +78,7 @@ function PracticeCard({ verb, onCorrect, onIncorrect, currentIndex, totalVerbs, 
               <p className="text-sm text-gray-400 italic cursor-help underline decoration-dotted">
                 Sentences unavailable - using direct input
               </p>
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity z-50">
                 <p className="mb-2 font-semibold text-sm">Prompt API not enabled</p>
                 <p className="mb-2">Enable Prompt API in chrome://flags for sentence-based practice.</p>
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">

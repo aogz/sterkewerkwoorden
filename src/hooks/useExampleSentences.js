@@ -24,7 +24,7 @@ export function useExampleSentences(verb) {
         }
 
         const availability = await LanguageModel.availability()
-        setApiAvailable(availability !== 'unavailable')
+        setApiAvailable(availability === 'available')
       } catch (err) {
         setApiAvailable(false)
       }
@@ -53,6 +53,12 @@ export function useExampleSentences(verb) {
         setLoading(false)
         return
       }
+    if (availability === 'downloading' || availability === 'downloadable') {
+        setError('Prompt API model is being loaded, it\'s expected to be available soon, please try again later')
+        setApiAvailable(false)
+        setLoading(false)
+        return
+    }
 
       const session = await LanguageModel.create()
 

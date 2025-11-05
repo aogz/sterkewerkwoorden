@@ -47,7 +47,7 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
                   <p className="text-xs text-gray-400 italic cursor-help underline decoration-dotted inline-block">
                     Examples unavailable
                   </p>
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-72 p-4 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-72 p-4 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity z-50">
                     <p className="mb-2 font-semibold text-sm">Prompt API not enabled</p>
                     <p className="mb-2">To enable example sentences:</p>
                     <ol className="list-decimal list-inside space-y-1 ml-2 mb-2">
@@ -97,7 +97,7 @@ function FlashCard({ verb, currentIndex, totalVerbs, onPrev, onNext }) {
                   <p className="text-xs text-gray-400 italic cursor-help underline decoration-dotted inline-block">
                     Examples unavailable
                   </p>
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-72 p-4 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-72 p-4 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity z-50">
                     <p className="mb-2 font-semibold text-sm">Prompt API not enabled</p>
                     <p className="mb-2">To enable example sentences:</p>
                     <ol className="list-decimal list-inside space-y-1 ml-2 mb-2">
